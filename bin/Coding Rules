@@ -1,0 +1,53 @@
+Remember to check this file every time you finish a part, maker sure
+you are following the rules. Remember that if you don't follow the 
+coding rules you will get easier tasks and less important tasks.
+
+1. COMMENTS, always remember to use the right comments, and that there is no such thing as not 
+   enough comments.
+1.a. Remember that before each function and class you will put a /** type comment.
+
+2. Normal and easy to understand function/class/variable names. So that each and every one of 
+   us can understand the code easily, without having to call the creator of the function/class
+   to ask what it does.
+
+3. Daily updates to Yair, and to the rest of the team. Where you explain your advancements and 
+   what you still have to do.
+
+4. Merging your branch to the master branch on GitHub ONLY, with permission from Yair, and under 
+   no circumstance will you merge without Yair's approval.
+   
+5. Each one/team works on a different branch, and under no circumstances will you work on the 
+   master branch.
+
+6. As stated above, before each function/class a /** type comment.
+
+7. All of the subsystems (מערכות) will go in the subsystem package, if it has multiple classes
+   it will go in it's own package with is team5951.subsystems.subsystemName
+
+8. Naming rules:
+	* As in section 2, Normal and easy to understand function/class/variable names.
+	* Classes' names start with a capital letter and continues with camelCase
+	  e.g. ChassisArcade, ChessisTalons, ButtonPorts, RobotMap.
+	* Functions, packages and variables start with a lower case letter and continue camelCased
+	  e.g. driveForward, goLeft, yairZiv
+	** When the variable is final, use lower cased k, an underscore and capital letters
+	   for every letter in the word, with underscores seperating the words (_ = underscore)
+	   e.g. k_THIS_IS_HOW_YOU_NAME_FINALS
+
+9. RobotMap class - used for handling port numbers. Every port you use, goes into the RobotMap
+   and never will you use something like talon = new CANTalon(9), only 
+   talon = new CANTalon(RobotMap.k_WHATEVER_IS_NUMBERED_9)
+   
+10. ButtonPorts class - used for handling joysticks and joystick buttons. Every button you use 
+   goes into the ButtonPorts class and never will you use stick = new Joystick(0);, only
+   stick = new Joystick(ButtonPorts.k_WHATEVER_JOYSTICK_THIS_IS)
+ 
+11. Use as many variables as you can, and as least "raw" numbers as possible.
+ 
+12. As common in Java programming, the first curly brace ({) goes on the same line as the 
+    if statement/function/class start, and the last curly brace (}) goes on the bottom
+    of the statement/function/class, a line after it.
+
+13. Watch out for updates on the rules. You can see the rules in 
+    https://docs.google.com/document/d/1aagMXgECe5pf8bfJag387PMu8AFukvJqewC0ckv12R0/edit?usp=sharing
+ 
