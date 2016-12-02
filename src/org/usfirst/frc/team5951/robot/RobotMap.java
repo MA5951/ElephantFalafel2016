@@ -18,4 +18,11 @@ public class RobotMap {
 	public static final int k_CHASSIS_LEFT_ENCODER_B = 2;
 	public static final int k_CHASSIS_RIGHT_ENCODER_A = 3;
 	public static final int k_CHASSIS_RIGHT_ENCODER_B = 4;
+	
+	//Dropper
+	
+	public static final int k_DROPPER_TALON_A=5;
+	public static final int k_DROPPER_TALON_B=6;
+	
+	public static final int k_MICROSWITCH=5;
 }
