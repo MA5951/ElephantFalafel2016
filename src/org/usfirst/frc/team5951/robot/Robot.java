@@ -60,7 +60,7 @@ public class Robot extends SampleRobot {
     public void operatorControl() {
         while(isEnabled() && isOperatorControl()){
         	chassisArcade.tankDrive(mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
-        	
+        	Timer.delay(0);
         	Timer.delay(0.05);
         }
     }
