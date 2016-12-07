@@ -2,11 +2,11 @@
 package org.usfirst.frc.team5951.robot;
 
 
-import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -32,11 +32,11 @@ public class Robot extends SampleRobot {
     
     //Subsystems
     private ChassisArcade chassisArcade;
-    private Dropper dropper;
 
     public Robot() {
         mainDriverStick = new Joystick(ButtonPorts.k_MAIN_DRIVER_JOYSTICK); //Main driver's joystick
         chassisArcade = new ChassisArcade(); //Chassis arcade init
+        SmartDashboard.putNumber("POV Value: ", mainDriverStick.getPOV());
     }
     
     public void robotInit() {
@@ -62,7 +62,9 @@ public class Robot extends SampleRobot {
     public void operatorControl() {
         while(isEnabled() && isOperatorControl()){
         	chassisArcade.tankDrive(mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
-        	Timer.delay(0);
+        	if (mainDriverStick.getPOV()  == 666){
+        		
+        	}
         	Timer.delay(0.05);
         }
     }
