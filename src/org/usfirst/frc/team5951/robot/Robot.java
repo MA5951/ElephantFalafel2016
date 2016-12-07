@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5951.robot;
 
 
+import org.usfirst.frc.team5951.subsystems.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,6 +32,7 @@ public class Robot extends SampleRobot {
     
     //Subsystems
     private ChassisArcade chassisArcade;
+    private Dropper dropper;
 
     public Robot() {
         mainDriverStick = new Joystick(ButtonPorts.k_MAIN_DRIVER_JOYSTICK); //Main driver's joystick
