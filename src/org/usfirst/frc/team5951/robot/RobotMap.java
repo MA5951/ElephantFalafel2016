@@ -20,7 +20,7 @@ public class RobotMap {
 	public static final int k_CHASSIS_RIGHT_ENCODER_B = 4;
 	
 	
-	public static final int k_LIFTMOTORTALON = 5951; // port for CANTalon
+	public static final int k_LIFTMOTORTALON = 5951; // port for CANTalon for arm/lift
 	public static final int k_PCMPORT = 420; // pcm port
 	
 }
