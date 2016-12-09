@@ -42,11 +42,4 @@ public class Arm {
 		liftMotor.set(0);
 	}
 }
-/*
- * last update: 8.12.16 
- * programmed by Omer Libai changed:
- *  Created class ArmTalons and put the CATTalon there.
- *  added method dontMove
- *  update before: 2.12.16 programmed by
- *  Omer Libai
- */
+
