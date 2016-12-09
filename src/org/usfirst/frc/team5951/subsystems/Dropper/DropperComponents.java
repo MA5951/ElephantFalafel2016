@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
-public class DropperTalons {
+public class DropperComponents {
 	public static CANTalon leftDropperMotor = new CANTalon(RobotMap.k_DROPPER_TALON_A);
 	public static CANTalon rightDropperMotor = new CANTalon(RobotMap.k_DROPPER_TALON_B);
 }

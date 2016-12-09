@@ -3,9 +3,8 @@ package org.usfirst.frc.team5951.subsystems.Dropper;
 import org.usfirst.frc.team5951.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Dropper {
 	private CANTalon leftDropperMotor;
@@ -14,12 +13,12 @@ public class Dropper {
 	private DigitalInput microSwitchLow;
 
 	public Dropper() {
-		leftDropperMotor = DropperTalons.leftDropperMotor;
-		rightDropperMotor = DropperTalons.rightDropperMotor;
+		leftDropperMotor = DropperComponents.leftDropperMotor;
+		rightDropperMotor = DropperComponents.rightDropperMotor;
 		leftDropperMotor.changeControlMode(TalonControlMode.PercentVbus);
 		rightDropperMotor.changeControlMode(TalonControlMode.PercentVbus);
-		microSwitchHigh = new DigitalInput(RobotMap.k_MICROSWITCHHIGH);
-		microSwitchLow = new DigitalInput(RobotMap.k_MOCROSWITCHLOW);
+		microSwitchHigh = new DigitalInput(RobotMap.k_MICROSWITCH_HIGH);
+		microSwitchLow = new DigitalInput(RobotMap.k_MICROSWITCH_LOW);
 	}
 /**
  * This function gets the value from the higher microswitch. while the limit switch is pressed (held), both talons will
