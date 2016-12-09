@@ -17,6 +17,9 @@ public class ChassisArcade {
 	private CANTalon chassisRightFront;
 	private CANTalon chassisRightRear;
 	
+	/**	
+	 *	{@link ChassisArcade} Constructor, initiates components.
+	*/
 	public ChassisArcade(){
 		chassisLeftFront = ChassisTalons.chassisLeftFront;
 		chassisLeftRear = ChassisTalons.chassisLeftRear;
