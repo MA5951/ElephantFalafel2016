@@ -1,12 +1,15 @@
 package org.usfirst.frc.team5951.robot;
 
 import org.usfirst.frc.team5951.subsystems.Arm.Arm;
+import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This is a demo program showing the use of the RobotDrive class. The
@@ -31,17 +34,43 @@ public class Robot extends SampleRobot {
 
 	// Subsystems
 	private ChassisArcade chassisArcade;
-	Arm arm; // declaring the arm
+	public Arm arm; // declaring the arm
+	public Dropper dropper;
+	
+	//Autonomous stuff
+	private SendableChooser passAutoLineOnly;
+	private SendableChooser rightOrLeft;
+	private SendableChooser dropStack;
 
 	public Robot() {
 		mainDriverStick = new Joystick(ButtonPorts.k_MAIN_DRIVER_JOYSTICK); // Main drivers joystick
 
 		arm = new Arm(); /**{@link Arm} init*/
+		dropper = new Dropper();
 		chassisArcade = new ChassisArcade(); /**{link ChassisArcade} init*/
 	}
 
 	public void robotInit() {
-
+		//Choosers init
+		passAutoLineOnly = new SendableChooser();
+		rightOrLeft = new SendableChooser();
+		dropStack = new SendableChooser();
+		
+		
+		//Pass autonomous line only chooser options
+		passAutoLineOnly.addDefault("No", false);
+		passAutoLineOnly.addObject("Yes", true);
+		SmartDashboard.putData("Pass autonomous line only?", passAutoLineOnly);
+		
+		//Right or left chooser options
+		rightOrLeft.addDefault("Left", "Left");
+		rightOrLeft.addObject("Right", "Right");
+		SmartDashboard.putData("Starting left or right of target", rightOrLeft);
+		
+		//Drop or not drop, that is the question (of the chooser)
+		dropStack.addDefault("Yes", true);
+		dropStack.addObject("no", false);
+		SmartDashboard.putData("Drop stack?", dropStack);		
 	}
 
 	/**
@@ -56,7 +85,7 @@ public class Robot extends SampleRobot {
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	public void autonomous() {
-
+		
 	}
 
 	/**
