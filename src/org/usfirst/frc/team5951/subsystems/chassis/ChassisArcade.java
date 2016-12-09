@@ -21,10 +21,10 @@ public class ChassisArcade {
 	 *	{@link ChassisArcade} Constructor, initiates components.
 	*/
 	public ChassisArcade(){
-		chassisLeftFront = ChassisTalons.chassisLeftFront;
-		chassisLeftRear = ChassisTalons.chassisLeftRear;
-		chassisRightFront = ChassisTalons.chassisRightFront;
-		chassisRightRear = ChassisTalons.chassisRightRear;
+		chassisLeftFront = ChassisComponents.chassisLeftFront;
+		chassisLeftRear = ChassisComponents.chassisLeftRear;
+		chassisRightFront = ChassisComponents.chassisRightFront;
+		chassisRightRear = ChassisComponents.chassisRightRear;
 		
 		chassisLeftFront.changeControlMode(TalonControlMode.PercentVbus);
 		chassisLeftRear.changeControlMode(TalonControlMode.PercentVbus);
