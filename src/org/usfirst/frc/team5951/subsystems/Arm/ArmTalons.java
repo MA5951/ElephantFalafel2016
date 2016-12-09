@@ -7,8 +7,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 /**
  * Class containing the components of the Arm
  * @author User
- *
  */
 public class ArmTalons {
-	public static CANTalon liftMotor = new CANTalon(RobotMap.k_LIFTMOTORTALON); // declare the CANTalon
+	public static CANTalon liftMotor = new CANTalon(RobotMap.k_LIFT_MOTOR_TALON); // declare the CANTalon
 }

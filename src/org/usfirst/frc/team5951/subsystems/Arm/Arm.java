@@ -13,7 +13,7 @@ public class Arm {
 	private CANTalon liftMotor;
 
 	/**
-	 * constructor
+	 * Constructor
 	 */
 	public Arm() {
 		liftMotor = ArmTalons.liftMotor;
@@ -21,7 +21,7 @@ public class Arm {
 	}
 
 	/**
-	 * method for raising the arm
+	 * Method for raising the arm
 	 */
 	public void armUp() {
 		liftMotor.set(1);
@@ -29,7 +29,7 @@ public class Arm {
 	}
 
 	/**
-	 * method for lowering the arm
+	 * Method for lowering the arm
 	 */
 	public void armDown() {
 		liftMotor.set(-1);
