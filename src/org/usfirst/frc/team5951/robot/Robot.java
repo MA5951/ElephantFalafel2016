@@ -4,10 +4,10 @@ import org.usfirst.frc.team5951.subsystems.Arm.Arm;
 import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -42,6 +42,9 @@ public class Robot extends SampleRobot {
 	private SendableChooser passAutoLineOnly;
 	private SendableChooser rightOrLeft;
 	private SendableChooser dropStack;
+	
+	//Camera
+	private CameraServer cameraServer;
 
 	public Robot() {
 		mainDriverStick = new Joystick(ButtonPorts.k_MAIN_DRIVER_JOYSTICK); // Main driver's joystick
@@ -50,6 +53,10 @@ public class Robot extends SampleRobot {
 		arm = new Arm(); /**{@link Arm} init*/
 		dropper = new Dropper(); /**{@link Dropper} init*/
 		chassisArcade = new ChassisArcade(); /**{link ChassisArcade} init*/
+		
+		//Camera init
+		cameraServer = CameraServer.getInstance();
+		cameraServer.startAutomaticCapture("cam0");
 	}
 
 	public void robotInit() {
@@ -97,30 +104,30 @@ public class Robot extends SampleRobot {
 		while (isEnabled() && isOperatorControl()) {
 			//Drives the robot by the values from the joystick.
 			this.chassisArcade.tankDrive(mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
-			
-			//Arm functionality
-			if (mainDriverStick.getPOV() == ButtonPorts.k_POV_UP) { // 0 is up on the POV, so we raise the arm.
-				this.arm.armUp();
-			}
-			else if (mainDriverStick.getPOV() == ButtonPorts.k_POV_DOWN) { // 180 is down on the POV, so we lower the arm.
-				this.arm.armDown();
-			} else {
-				// Stops the arm
-				this.arm.stop();
-			}
-			
-			//Dropper functionality
-			if(mainDriverStick.getRawButton(ButtonPorts.k_DROP_ALL_BLACKS)){
-				this.dropper.forward();
-			} else if (mainDriverStick.getRawButton(ButtonPorts.k_INTAKE)){
-				this.dropper.intake();
-			} else if (mainDriverStick.getRawButton(ButtonPorts.k_OUTAKE)){
-				this.dropper.outTake();
-			} else {
-				this.dropper.stop();
-			}
-			
-			Timer.delay(0.05);
+//			
+//			//Arm functionality
+//			if (mainDriverStick.getPOV() == ButtonPorts.k_POV_UP) { // 0 is up on the POV, so we raise the arm.
+//				this.arm.armUp();
+//			}
+//			else if (mainDriverStick.getPOV() == ButtonPorts.k_POV_DOWN) { // 180 is down on the POV, so we lower the arm.
+//				this.arm.armDown();
+//			} else {
+//				// Stops the arm
+//				this.arm.stop();
+//			}
+//			
+//			//Dropper functionality
+//			if(mainDriverStick.getRawButton(ButtonPorts.k_DROP_ALL_BLACKS)){
+//				this.dropper.forward();
+//			} else if (mainDriverStick.getRawButton(ButtonPorts.k_INTAKE)){
+//				this.dropper.intake();
+//			} else if (mainDriverStick.getRawButton(ButtonPorts.k_OUTAKE)){
+//				this.dropper.outTake();
+//			} else {
+//				this.dropper.stop();
+//			}
+//			
+//			Timer.delay(0.05);
 		}
 	}
 
