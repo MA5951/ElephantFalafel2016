@@ -16,7 +16,7 @@ public class Arm {
 	 * Constructor
 	 */
 	public Arm() {
-		liftMotor = ArmTalons.liftMotor;
+		liftMotor = ArmComponents.liftMotor;
 		liftMotor.changeControlMode(TalonControlMode.PercentVbus);
 	}
 

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
  * 
  * @author Yair Ziv, Omer Libai, Tomer Asher
  */
-public class Autonomous {
+public class AutonomousRunner {
 	static ChassisPID chassisPID = new ChassisPID();
 	static Arm autoArm = new Arm();
 	static Dropper dropper = new Dropper();

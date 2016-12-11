@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends SampleRobot {
 	// Joysticks
 	private Joystick mainDriverStick;
+	private Joystick systemsDriver;
 
 	// Subsystems
 	private ChassisArcade chassisArcade;
@@ -43,10 +44,11 @@ public class Robot extends SampleRobot {
 	private SendableChooser dropStack;
 
 	public Robot() {
-		mainDriverStick = new Joystick(ButtonPorts.k_MAIN_DRIVER_JOYSTICK); // Main drivers joystick
+		mainDriverStick = new Joystick(ButtonPorts.k_MAIN_DRIVER_JOYSTICK); // Main driver's joystick
+		systemsDriver = new Joystick(ButtonPorts.k_SYSTEMS_DRIVER_JOYSTICK); //Systems driver's joystick 
 
 		arm = new Arm(); /**{@link Arm} init*/
-		dropper = new Dropper();
+		dropper = new Dropper(); /**{@link Dropper} init*/
 		chassisArcade = new ChassisArcade(); /**{link ChassisArcade} init*/
 	}
 
@@ -85,7 +87,7 @@ public class Robot extends SampleRobot {
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	public void autonomous() {
-		
+		AutonomousRunner.run((boolean) passAutoLineOnly.getSelected(), (String) rightOrLeft.getSelected(), (boolean)dropStack.getSelected());
 	}
 
 	/**
@@ -93,18 +95,31 @@ public class Robot extends SampleRobot {
 	 */
 	public void operatorControl() {
 		while (isEnabled() && isOperatorControl()) {
+			//Drives the robot by the values from the joystick.
 			this.chassisArcade.tankDrive(mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
-			if (mainDriverStick.getPOV() == 0) { // 0 is up on the POV
+			
+			//Arm functionality
+			if (mainDriverStick.getPOV() == ButtonPorts.k_POV_UP) { // 0 is up on the POV, so we raise the arm.
 				this.arm.armUp();
 			}
-			else if (mainDriverStick.getPOV() == 180) { // 180 is down on the POV
+			else if (mainDriverStick.getPOV() == ButtonPorts.k_POV_DOWN) { // 180 is down on the POV, so we lower the arm.
 				this.arm.armDown();
 			} else {
 				// Stops the arm
 				this.arm.stop();
 			}
 			
-
+			//Dropper functionality
+			if(mainDriverStick.getRawButton(ButtonPorts.k_DROP_ALL_BLACKS)){
+				this.dropper.forward();
+			} else if (mainDriverStick.getRawButton(ButtonPorts.k_INTAKE)){
+				this.dropper.intake();
+			} else if (mainDriverStick.getRawButton(ButtonPorts.k_OUTAKE)){
+				this.dropper.outTake();
+			} else {
+				this.dropper.stop();
+			}
+			
 			Timer.delay(0.05);
 		}
 	}
