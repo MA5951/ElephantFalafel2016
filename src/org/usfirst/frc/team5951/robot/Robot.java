@@ -2,8 +2,8 @@
 package org.usfirst.frc.team5951.robot;
 
 
-import org.usfirst.frc.team5951.subsystems.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
+import org.usfirst.frc.team5951.subsystems.dropper.Dropper;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;

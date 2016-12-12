@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5951.subsystems.Dropper;
+package org.usfirst.frc.team5951.subsystems.dropper;
 
 import org.usfirst.frc.team5951.robot.RobotMap;
 
