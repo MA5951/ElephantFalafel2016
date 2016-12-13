@@ -7,10 +7,10 @@ package org.usfirst.frc.team5951.robot;
 public class RobotMap {
 	//Talon ports
 	//Chassis ports
-	public static final int k_CHASSIS_LEFT_FRONT = 1;
-	public static final int k_CHASSIS_LEFT_REAR = 2;
-	public static final int k_CHASSIS_RIGHT_FRONT = 3;
-	public static final int k_CHASSIS_RIGHT_REAR  =4;
+	public static final int k_CHASSIS_LEFT_FRONT = 4;
+	public static final int k_CHASSIS_LEFT_REAR = 5;
+	public static final int k_CHASSIS_RIGHT_FRONT = 2;
+	public static final int k_CHASSIS_RIGHT_REAR = 3;
 	
 	//Sensors ports
 	//Encoders
@@ -20,11 +20,11 @@ public class RobotMap {
 	public static final int k_CHASSIS_RIGHT_ENCODER_B = 4;
 	
 	//Arm ports
-	public static final int k_LIFT_MOTOR_TALON = 5; // port for CANTalon for arm/lift	
+	public static final int k_LIFT_MOTOR_TALON = 1; // port for CANTalon for arm/lift	
 	
 	//Dropper Ports
-	public static final int k_DROPPER_TALON_A = 5;
-	public static final int k_DROPPER_TALON_B = 6;
+	public static final int k_DROPPER_TALON_LEFT = 5;
+	public static final int k_DROPPER_TALON_RIGHT = 6;
 	
 	public static final int k_MICROSWITCH_HIGH = 3;
 	public static final int k_MICROSWITCH_LOW = 4;

@@ -26,6 +26,7 @@ public class ChassisArcade {
 		chassisLeftRear = ChassisComponents.chassisLeftRear;
 		chassisRightFront = ChassisComponents.chassisRightFront;
 		chassisRightRear = ChassisComponents.chassisRightRear;
+		chassisRightRear.reverseOutput(true);
 		
 		chassisLeftFront.changeControlMode(TalonControlMode.PercentVbus);
 		chassisLeftRear.changeControlMode(TalonControlMode.PercentVbus);
