@@ -1,4 +1,2 @@
 Finish the autonomous function and find real values.
 Tune Chassis PID.
-Using the sensors for our commands (We're (hopefully) going to have encoders,
-a gyro, ultrasonic and 2 microswitchs). 
