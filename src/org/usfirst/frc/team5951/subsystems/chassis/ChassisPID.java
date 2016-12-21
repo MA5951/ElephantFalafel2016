@@ -13,26 +13,28 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 public class ChassisPID {
 	//Components
 	//Motors
-	private CANTalon chassisLeftFront;
-	private CANTalon chassisLeftRear;
-	private CANTalon chassisRightFront;
+	private volatile CANTalon chassisLeftFront;
+	private volatile CANTalon chassisLeftRear;
+	private volatile CANTalon chassisRightFront;
 	private CANTalon chassisRightRear;
 	
 	//Encoders
-	private Encoder chassisEncoderLeft;
-	private Encoder chassisEncoderRight;
+	private volatile Encoder chassisEncoderLeft;
+	private volatile Encoder chassisEncoderRight;
 	
 	//PIDControllers
 	private PIDController leftFrontController;
+	private PIDController leftRearController;
 	private PIDController rightFrontController;
+	private PIDController rightRearController;
 	
 	//Other variables
-	private final double k_KP_LEFT = 0.0045;
-	private final double k_KI_LEFT = 0.00003;
+	private final double k_KP_LEFT = 0.3;
+	private final double k_KI_LEFT = 0;
 	private final double k_KD_LEFT = 0;
 	
-	private final double k_KP_RIGHT = 0.004;
-	private final double k_KI_RIGHT = 0.00003;
+	private final double k_KP_RIGHT = 0.3;
+	private final double k_KI_RIGHT = 0;
 	private final double k_KD_RIGHT = 0;
 	
 	
@@ -45,29 +47,28 @@ public class ChassisPID {
 		chassisLeftRear = ChassisComponents.chassisLeftRear;
 		chassisRightFront = ChassisComponents.chassisRightFront;
 		chassisRightRear = ChassisComponents.chassisRightRear;
+		chassisRightRear.reverseOutput(true);
 		
 		chassisLeftFront.changeControlMode(TalonControlMode.PercentVbus);
-		chassisLeftRear.changeControlMode(TalonControlMode.Follower);
+		chassisLeftRear.changeControlMode(TalonControlMode.PercentVbus);
 		chassisRightFront.changeControlMode(TalonControlMode.PercentVbus);
-		chassisRightRear.changeControlMode(TalonControlMode.Follower);
-		
-		chassisRightFront.setInverted(true);
-        chassisLeftRear.reverseOutput(true);
-        chassisLeftFront.setInverted(true);
+		chassisRightRear.changeControlMode(TalonControlMode.PercentVbus);
 		
 		//Encoders init
 		chassisEncoderLeft = ChassisComponents.leftChassisEncoder;
 		chassisEncoderRight = ChassisComponents.rightChassisEncoder;
-		chassisEncoderLeft.setDistancePerPulse(Math.PI * 15.24 / 360);
-		chassisEncoderRight.setDistancePerPulse(Math.PI * 15.24 / 265); 
 		
 		//PIDControllers init
 		leftFrontController = new PIDController(k_KP_LEFT, k_KI_LEFT, k_KD_LEFT, chassisEncoderLeft, chassisLeftFront);
+		leftRearController = new PIDController(k_KP_LEFT, k_KI_LEFT, k_KD_LEFT, chassisEncoderLeft, chassisLeftRear);
 		rightFrontController = new PIDController(k_KP_RIGHT, k_KI_RIGHT, k_KD_RIGHT, chassisEncoderRight, chassisRightFront);
+		rightRearController = new PIDController(k_KP_RIGHT, k_KI_RIGHT, k_KD_RIGHT, chassisEncoderRight, chassisRightRear);
 		
 		//Controllers data
 		leftFrontController.setAbsoluteTolerance(0.1);
+		leftRearController.setAbsoluteTolerance(0.1);
 		rightFrontController.setAbsoluteTolerance(0.1);
+		rightRearController.setAbsoluteTolerance(0.1);
 	}
 	
 	
@@ -77,11 +78,15 @@ public class ChassisPID {
 	 */
 	public void drive(double distance){
 		leftFrontController.setSetpoint(distance);
+		leftRearController.setSetpoint(distance);
 		rightFrontController.setSetpoint(distance);
+		rightRearController.setSetpoint(distance);
 		
 		enableAllControllers();
 		
-		
+		while(!leftFrontController.onTarget() && !leftRearController.onTarget()){
+			
+		}
 		
 		disableAllControllers();
 	}
@@ -92,7 +97,9 @@ public class ChassisPID {
 	 */
 	private void enableAllControllers(){
 		leftFrontController.enable();
+		leftRearController.enable();
 		rightFrontController.enable();
+		rightRearController.enable();
 		
 		chassisEncoderLeft.reset();
 		chassisEncoderRight.reset();
@@ -103,18 +110,15 @@ public class ChassisPID {
 	 * Disables all controllers at the same time
 	 */
 	private void disableAllControllers(){
-		leftFrontController.disable();    
+		leftFrontController.disable();  
+		leftRearController.disable();   
 		rightFrontController.disable(); 
+		rightRearController.disable();  
 		
 		chassisLeftFront.set(0);
 		chassisLeftRear.set(0);
 		chassisRightFront.set(0);
 		chassisRightRear.set(0);
-	}
-	
-	private void setSetpoint(double setpoint){
-		this.leftFrontController.setSetpoint(setpoint);
-		this.rightFrontController.setSetpoint(setpoint);
 	}
 	
 	/**

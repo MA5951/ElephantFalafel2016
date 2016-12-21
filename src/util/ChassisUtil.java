@@ -1,7 +1,14 @@
 package util;
-
+/**
+ * Utility functions for the Chassis subsystem
+ */
 public class ChassisUtil {
-
+	/**
+	 * Converts rotate and move values to tank values
+	 * @param rotateValue - given rotate value (0-1)
+	 * @param moveValue - given move value (0-1)
+	 * @return Tank drive values
+	 */
 	public static double[] arcadeDrive(double rotateValue, double moveValue){
 		rotateValue *= -1;
 		double leftMotorSpeed;
@@ -40,5 +47,13 @@ public class ChassisUtil {
     	double[] result = {leftMotorSpeed, rightMotorSpeed};
     	return result;
 	}
-	
+	/**
+	 * Calculates distance per pulse for given wheel radius
+	 * @param wheelRadius - Raduis of wheel connected to encoder (centimeters)
+	 * @return Distance per pulse value (centimeters) 
+	 */
+	public static double getDPPByRadius(double wheelRadius){
+		return (wheelRadius*2*Math.PI)/360;
+		
+	}
 }

@@ -1,7 +1,10 @@
 package org.usfirst.frc.team5951.subsystems.Arm;
 
+import org.usfirst.frc.team5951.robot.ButtonPorts;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * Class for the Arm subsystem.
@@ -10,7 +13,7 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
  */
 public class Arm {
 
-	private CANTalon liftMotor;
+	private volatile CANTalon liftMotor;
 
 	/**
 	 * Constructor
@@ -19,7 +22,22 @@ public class Arm {
 		liftMotor = ArmComponents.liftMotor;
 		liftMotor.changeControlMode(TalonControlMode.PercentVbus);
 	}
-
+	
+	/**
+	 * Arm functionality
+	 * @param stick - {@link Joystick} to control arm with
+	 */
+	public void control(Joystick stick){
+		if (stick.getPOV() == ButtonPorts.k_POV_UP) { // 0 is up on the POV, so we raise the arm.
+			this.armUp();
+		}
+		else if (stick.getPOV() == ButtonPorts.k_POV_DOWN) { // 180 is down on the POV, so we lower the arm.
+			this.armDown();
+		} else {
+			// Stops the arm
+			this.stop();
+		}
+	}
 	/**
 	 * Method for raising the arm
 	 */

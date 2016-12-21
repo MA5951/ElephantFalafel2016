@@ -9,5 +9,5 @@ import edu.wpi.first.wpilibj.CANTalon;
  * @author User
  */
 public class ArmComponents {
-	public static CANTalon liftMotor = new CANTalon(RobotMap.k_ARM_MOTOR_TALON); // declare the CANTalon
+	public static CANTalon liftMotor = new CANTalon(RobotMap.k_LIFT_MOTOR_TALON); // declare the CANTalon
 }

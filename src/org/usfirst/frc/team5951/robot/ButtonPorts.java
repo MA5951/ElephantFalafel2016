@@ -13,7 +13,7 @@ public class ButtonPorts {
 	
 	//Button ports
 	public static final int k_INTAKE = 6;
-	public static final int k_REVERSE = 4;
+	public static final int k_OUTAKE = 4;
 	public static final int k_DROP_ALL_BLOCKS = 1; //Drops the cubes
 	
 	//POV values
