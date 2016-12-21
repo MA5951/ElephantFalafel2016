@@ -20,5 +20,5 @@ public class ChassisComponents {
 	//Sensors
 	//Encoders
 	public static Encoder leftChassisEncoder = new Encoder(RobotMap.k_CHASSIS_LEFT_ENCODER_A, RobotMap.k_CHASSIS_LEFT_ENCODER_B);
-	public static Encoder rightChassisEncoder = new Encoder(RobotMap.k_CHASSIS_RIGHT_ENCODER_A, RobotMap.k_CHASSIS_RIGHT_ENCODER_B);	
+	public static Encoder rightChassisEncoder = new Encoder(RobotMap.k_CHASSIS_RIGHT_ENCODER_A, RobotMap.k_CHASSIS_RIGHT_ENCODER_B, true);
 }

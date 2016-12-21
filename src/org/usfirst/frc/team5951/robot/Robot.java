@@ -4,7 +4,6 @@ import org.usfirst.frc.team5951.subsystems.Arm.Arm;
 import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.SampleRobot;
@@ -31,10 +30,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends SampleRobot {
 	// Joysticks
 	private Joystick mainDriverStick;
-	private Joystick systemsDriver;
+//	private Joystick systemsDriver;
 
 	// Subsystems
-	private ChassisArcade chassisArcade;
+	public ChassisArcade chassisArcade;
 	public Arm arm; // declaring the arm
 	public Dropper dropper;
 	
@@ -44,19 +43,19 @@ public class Robot extends SampleRobot {
 	private SendableChooser dropStack;
 	
 	//Camera
-	private CameraServer cameraServer;
+//	private CameraServer cameraServer;
 
 	public Robot() {
 		mainDriverStick = new Joystick(ButtonPorts.k_MAIN_DRIVER_JOYSTICK); // Main driver's joystick
-		systemsDriver = new Joystick(ButtonPorts.k_SYSTEMS_DRIVER_JOYSTICK); //Systems driver's joystick 
+//		systemsDriver = new Joystick(ButtonPorts.k_SYSTEMS_DRIVER_JOYSTICK); //Systems driver's joystick 
 
 		arm = new Arm(); /**{@link Arm} init*/
 		dropper = new Dropper(); /**{@link Dropper} init*/
 		chassisArcade = new ChassisArcade(); /**{link ChassisArcade} init*/
 		
 		//Camera init
-		cameraServer = CameraServer.getInstance();
-		cameraServer.startAutomaticCapture("cam0");
+//		cameraServer = CameraServer.getInstance();
+//		cameraServer.startAutomaticCapture("cam0");
 	}
 
 	public void robotInit() {
@@ -67,18 +66,18 @@ public class Robot extends SampleRobot {
 		
 		
 		//Pass autonomous line only chooser options
-		passAutoLineOnly.addDefault("No", false);
-		passAutoLineOnly.addObject("Yes", true);
+		passAutoLineOnly.addDefault("Normal auto by choices", false);
+		passAutoLineOnly.addObject("Autonomous of auto line passing only", true);
 		SmartDashboard.putData("Pass autonomous line only?", passAutoLineOnly);
 		
 		//Right or left chooser options
-		rightOrLeft.addDefault("Left", "Left");
-		rightOrLeft.addObject("Right", "Right");
+		rightOrLeft.addDefault("Left of the target", "Left");
+		rightOrLeft.addObject("Right of the target", "Right");
 		SmartDashboard.putData("Starting left or right of target", rightOrLeft);
 		
 		//Drop or not drop, that is the question (of the chooser)
-		dropStack.addDefault("Yes", true);
-		dropStack.addObject("no", false);
+		dropStack.addDefault("Drop stacks", true);
+		dropStack.addObject("Don't drop", false);
 		SmartDashboard.putData("Drop stack?", dropStack);		
 	}
 
@@ -95,45 +94,53 @@ public class Robot extends SampleRobot {
 	 */
 	public void autonomous() {
 		AutonomousRunner.run((boolean) passAutoLineOnly.getSelected(), (String) rightOrLeft.getSelected(), (boolean)dropStack.getSelected());
-	}
-
+	}	
+	
 	/**
 	 * Runs the motors with arcade steering.
 	 */
 	public void operatorControl() {
-		while (isEnabled() && isOperatorControl()) {
+		
+		while(isEnabled() && isOperatorControl()){
 			//Drives the robot by the values from the joystick.
-			this.chassisArcade.tankDrive(mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
-//			
-//			//Arm functionality
-//			if (mainDriverStick.getPOV() == ButtonPorts.k_POV_UP) { // 0 is up on the POV, so we raise the arm.
-//				this.arm.armUp();
-//			}
-//			else if (mainDriverStick.getPOV() == ButtonPorts.k_POV_DOWN) { // 180 is down on the POV, so we lower the arm.
-//				this.arm.armDown();
-//			} else {
-//				// Stops the arm
-//				this.arm.stop();
-//			}
-//			
-//			//Dropper functionality
-//			if(mainDriverStick.getRawButton(ButtonPorts.k_DROP_ALL_BLACKS)){
-//				this.dropper.forward();
-//			} else if (mainDriverStick.getRawButton(ButtonPorts.k_INTAKE)){
-//				this.dropper.intake();
-//			} else if (mainDriverStick.getRawButton(ButtonPorts.k_OUTAKE)){
-//				this.dropper.outTake();
-//			} else {
-//				this.dropper.stop();
-//			}
-//			
-//			Timer.delay(0.05);
-		}
+			this.chassisArcade.tankDrive(-mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
+			
+			//Arm functionality
+			if (mainDriverStick.getPOV() == ButtonPorts.k_POV_UP) { // 0 is up on the POV, so we raise the arm.
+				this.arm.armUp();
+			}
+			else if (mainDriverStick.getPOV() == ButtonPorts.k_POV_DOWN) { // 180 is down on the POV, so we lower the arm.
+				this.arm.armDown();
+			} else {
+				// Stops the arm
+				this.arm.stop();
+			}
+			
+			//Dropper functionality
+			if(mainDriverStick.getRawButton(ButtonPorts.k_DROP_ALL_BLOCKS)){
+				this.dropper.forward();
+			} else if (mainDriverStick.getRawButton(ButtonPorts.k_INTAKE)){
+				this.dropper.intake();
+			} else if (mainDriverStick.getRawButton(ButtonPorts.k_REVERSE)){
+				this.dropper.reverse();
+			} else {
+				this.dropper.stop();
+			}
+			
+			if(this.mainDriverStick.getRawButton(2)){
+				this.chassisArcade.resetEncoders();
+			}
+			
+			
+			SmartDashboard.putNumber("Left Encoder: ", chassisArcade.getEncoderVlaueLeft());
+			SmartDashboard.putNumber("Right encoder value: ", chassisArcade.getEncoderValueRight());
+		}		
 	}
 
 	/**
 	 * Runs during test mode
 	 */
 	public void test() {
+		this.dropper.forward();
 	}
 }

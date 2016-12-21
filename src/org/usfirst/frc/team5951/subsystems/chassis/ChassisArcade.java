@@ -2,7 +2,7 @@ package org.usfirst.frc.team5951.subsystems.chassis;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.Encoder;
 import util.ChassisUtil;
 
 /**
@@ -13,10 +13,15 @@ import util.ChassisUtil;
  */
 public class ChassisArcade {
 	
+	//Talons
 	private CANTalon chassisLeftFront;
 	private CANTalon chassisLeftRear;
 	private CANTalon chassisRightFront;
 	private CANTalon chassisRightRear;
+	
+	//Encoder
+	private Encoder encoderLeft;
+	private Encoder encoderRight;
 	
 	/**	
 	 *	{@link ChassisArcade} Constructor, initiates components.
@@ -26,12 +31,24 @@ public class ChassisArcade {
 		chassisLeftRear = ChassisComponents.chassisLeftRear;
 		chassisRightFront = ChassisComponents.chassisRightFront;
 		chassisRightRear = ChassisComponents.chassisRightRear;
-		chassisRightRear.reverseOutput(true);
 		
 		chassisLeftFront.changeControlMode(TalonControlMode.PercentVbus);
 		chassisLeftRear.changeControlMode(TalonControlMode.PercentVbus);
 		chassisRightFront.changeControlMode(TalonControlMode.PercentVbus);
 		chassisRightRear.changeControlMode(TalonControlMode.PercentVbus);
+		chassisLeftRear.setInverted(true);
+//		chassisRightRear.setInverted(true);
+//		chassisRightFront.setInverted(true);
+//		chassisLeftFront.setInverted(true);
+		
+		encoderLeft = ChassisComponents.leftChassisEncoder;
+		encoderRight = ChassisComponents.rightChassisEncoder;
+		
+//		encoderLeft.
+		encoderRight.setReverseDirection(false);
+	
+		encoderLeft.setDistancePerPulse(1.0 / 438);
+		encoderRight.setDistancePerPulse(1.0 / 632); 
 	}
 	
 	/**
@@ -66,5 +83,18 @@ public class ChassisArcade {
 		this.chassisRightRear.set(power);
 	}
 	
+	
+	public double getEncoderVlaueLeft(){
+		return this.encoderLeft.getDistance();
+	}
+	
+	public double getEncoderValueRight(){
+		return this.encoderRight.getDistance();
+	}
+	
+	public void resetEncoders(){
+		this.encoderLeft.reset();
+		this.encoderRight.reset();
+	}
 	
 }

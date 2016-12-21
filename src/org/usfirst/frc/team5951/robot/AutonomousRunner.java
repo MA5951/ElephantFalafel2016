@@ -5,6 +5,8 @@ import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisPID;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * Class to run the autonomous command.
@@ -12,10 +14,12 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
  * @author Yair Ziv, Omer Libai, Tomer Asher
  */
 public class AutonomousRunner {
+
 	static ChassisPID chassisPID = new ChassisPID();
 	static Arm autoArm = new Arm();
 	static Dropper dropper = new Dropper();
 	static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	static Ultrasonic ultrasonic = new Ultrasonic(3, 4);
 
 	public static void run(boolean passAutoOnly, String leftOrRight, boolean dropStack) {
 		gyro.reset();
@@ -57,6 +61,22 @@ public class AutonomousRunner {
 				}
 				chassisPID.stopChassis();
 			}
+			
+			while(!(ultrasonic.getRangeMM() <= 200)){
+				chassisPID.drive(10);
+			}
+			
+			autoArm.armUp();
+			Timer.delay(1.5);
+			autoArm.stop();
+			
+			while(!(ultrasonic.getRangeMM() >= 5)){
+				chassisPID.drive(5);
+			}
+			
+			dropper.forward();
+			Timer.delay(1);
+			dropper.stop();
 		}
 	}
 }
