@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 public class ChassisPID {
 	//Components
 	//Motors
-	private volatile CANTalon chassisLeftFront;
-	private volatile CANTalon chassisLeftRear;
-	private volatile CANTalon chassisRightFront;
-	private CANTalon chassisRightRear;
+	private CANTalon chassisLeftFront;
+	private CANTalon chassisLeftRear;
+	private CANTalon chassisRightFront;
+	private  CANTalon chassisRightRear;
 	
 	//Encoders
-	private volatile Encoder chassisEncoderLeft;
-	private volatile Encoder chassisEncoderRight;
+	private Encoder chassisEncoderLeft;
+	private Encoder chassisEncoderRight;
 	
 	//PIDControllers
 	private PIDController leftFrontController;

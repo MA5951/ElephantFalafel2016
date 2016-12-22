@@ -9,18 +9,20 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Dropper {
-	private volatile CANTalon leftDropperMotor;
-	private volatile CANTalon rightDropperMotor;
-	private volatile DigitalInput microSwitchHigh;
-	private volatile DigitalInput microSwitchLow;
+	private CANTalon leftDropperMotor;
+	private CANTalon rightDropperMotor;
+	
 
 	public Dropper() {
 		leftDropperMotor = DropperComponents.leftDropperMotor;
 		rightDropperMotor = DropperComponents.rightDropperMotor;
+		
+		leftDropperMotor.setInverted(true);
+		rightDropperMotor.setInverted(true);
 		leftDropperMotor.changeControlMode(TalonControlMode.PercentVbus);
 		rightDropperMotor.changeControlMode(TalonControlMode.PercentVbus);
-		microSwitchHigh = new DigitalInput(RobotMap.k_MICROSWITCH_HIGH);
-		microSwitchLow = new DigitalInput(RobotMap.k_MICROSWITCH_LOW);
+		//microSwitchHigh = new DigitalInput(RobotMap.k_MICROSWITCH_HIGH);
+		//microSwitchLow = new DigitalInput(RobotMap.k_MICROSWITCH_LOW);
 	}
 	/**
 	 * Dropper functionality
@@ -43,13 +45,10 @@ public class Dropper {
 	 * be set to 1, meaning the weigh will be taken forward until the limit switch gets released.
 	 */
 	public void intake() {
-		if(microSwitchHigh.get() && !microSwitchLow.get()){
+		//if(microSwitchHigh.get()){
 			leftDropperMotor.set(1);
 			rightDropperMotor.set(1);
-		} else {
-			leftDropperMotor.set(0);
-			rightDropperMotor.set(0);
-		}
+		
 	}
 	
 	/**
@@ -58,10 +57,10 @@ public class Dropper {
 	 * if there is a weight on the bottom we stop the wheels and put the talon on zero
 	 */
 	public void outTake() {
-		if (microSwitchLow.get()) {
-			rightDropperMotor.set(0);
-			leftDropperMotor.set(0);
-		}
+		//if (microSwitchLow.get()) {
+			rightDropperMotor.set(-1);
+			leftDropperMotor.set(-1);
+		//}
 	}
 	
 	/**

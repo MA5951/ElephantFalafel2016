@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5951.robot;
 
+import java.sql.Time;
+
 import org.usfirst.frc.team5951.subsystems.Arm.Arm;
 import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
@@ -45,8 +47,8 @@ public class Robot extends SampleRobot {
 	private Runnable teleopRunnable = () -> {
 		//Drives the robot by the values from the joystick.
 		while(true) {
-			this.chassisArcade.tankDrive(mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
-			this.arm.control(mainDriverStick);
+			this.chassisArcade.tankDrive(-mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
+			this.arm.control(systemsDriver);
 			this.dropper.control(systemsDriver);	
 			Timer.delay(0.05);
 		}
@@ -55,11 +57,11 @@ public class Robot extends SampleRobot {
 	 * Initializes camera
 	 */
 	private Runnable cameraThread = () -> {
-		while(!cameraServer.isAutoCaptureStarted()) {
+		/*while(!cameraServer.isAutoCaptureStarted()) {
 			cameraServer = CameraServer.getInstance();
 			cameraServer.startAutomaticCapture("cam0");
 			Timer.delay(5);
-		}
+		}*/
 	};
 	
 	/**
@@ -73,7 +75,8 @@ public class Robot extends SampleRobot {
 		dropper = new Dropper(); /**{@link Dropper} init*/
 		chassisArcade = new ChassisArcade(); /**{link ChassisArcade} init*/
 		//Camera init
-		new Thread(cameraThread).start();
+		System.out.println("started");
+		//new Thread(cameraThread).start();
 	}
 	/**
 	 * Robot initialize function
@@ -114,7 +117,7 @@ public class Robot extends SampleRobot {
 	public void autonomous() {
 		Thread autonomousThread = new Thread(autonomousRunnable);
 		autonomousThread.start();
-		while(isAutonomous() && isEnabled()){}
+		while(isAutonomous() && isEnabled()){Timer.delay(0.05);}
 		autonomousThread.stop();
 	}
 

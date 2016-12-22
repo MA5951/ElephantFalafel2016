@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class Arm {
 
-	private volatile CANTalon liftMotor;
+	private CANTalon liftMotor;
 
 	/**
 	 * Constructor

@@ -13,10 +13,10 @@ import util.ChassisUtil;
  */
 public class ChassisArcade {
 	
-	private volatile CANTalon chassisLeftFront;
-	private volatile CANTalon chassisLeftRear;
-	private volatile CANTalon chassisRightFront;
-	private volatile CANTalon chassisRightRear;
+	private CANTalon chassisLeftFront;
+	private CANTalon chassisLeftRear;
+	private CANTalon chassisRightFront;
+	private CANTalon chassisRightRear;
 	
 	/**	
 	 *	{@link ChassisArcade} Constructor, initiates components.
@@ -27,7 +27,11 @@ public class ChassisArcade {
 		chassisRightFront = ChassisComponents.chassisRightFront;
 		chassisRightRear = ChassisComponents.chassisRightRear;
 		chassisRightRear.reverseOutput(true);
-		
+		chassisLeftRear.setInverted(true);
+		chassisLeftFront.enableBrakeMode(false);
+		chassisLeftRear.enableBrakeMode(false);
+		chassisRightFront.enableBrakeMode(false);
+		chassisRightRear.enableBrakeMode(false);
 		chassisLeftFront.changeControlMode(TalonControlMode.PercentVbus);
 		chassisLeftRear.changeControlMode(TalonControlMode.PercentVbus);
 		chassisRightFront.changeControlMode(TalonControlMode.PercentVbus);
