@@ -21,9 +21,9 @@ public class Robot extends SampleRobot {
 	private Joystick systemsDriver;
 
 	// Subsystems
-	private ChassisArcade chassisArcade;
-	public Arm arm; // declaring the arm
-	public Dropper dropper;	
+	public static ChassisArcade chassisArcade;
+	public static Arm arm; // declaring the arm
+	public static Dropper dropper;	
 	
 	//Autonomous stuff
 	private SendableChooser passAutoLineOnly;
@@ -35,7 +35,10 @@ public class Robot extends SampleRobot {
 	 * Autonomous {@link Runnable} instance
 	 */
 	private Runnable autonomousRunnable = () -> {
-		AutonomousRunner.run((boolean) passAutoLineOnly.getSelected(), (String) rightOrLeft.getSelected());
+		
+		AutonomousRunner.gyroCalibrate();
+		AutonomousRunner.run();
+		
 	};
 	/**
 	 * Teleop {@link Runnable} instance
@@ -46,19 +49,11 @@ public class Robot extends SampleRobot {
 			this.chassisArcade.tankDrive(-mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
 			this.arm.control(systemsDriver);
 			this.dropper.control(systemsDriver);	
+			SmartDashboard.putNumber("ultra", AutonomousRunner.frontUltrasonic.getRangeMM());
 			Timer.delay(0.05);
 		}
 	};
-	/**
-	 * Initializes camera
-	 */
-	private Runnable cameraThread = () -> {
-		/*while(!cameraServer.isAutoCaptureStarted()) {
-			cameraServer = CameraServer.getInstance();
-			cameraServer.startAutomaticCapture("cam0");
-			Timer.delay(5);
-		}*/
-	};
+
 	
 	/**
 	 * Constructor
@@ -72,7 +67,6 @@ public class Robot extends SampleRobot {
 		chassisArcade = new ChassisArcade(); /**{link ChassisArcade} init*/
 		//Camera init
 		System.out.println("started");
-		//new Thread(cameraThread).start();
 		
 		cameraServer = CameraServer.getInstance();
 		cameraServer.setQuality(50);
@@ -83,6 +77,7 @@ public class Robot extends SampleRobot {
 	 */
 	public void robotInit() {
 		initChoosers();	
+		
 	}
 	
 	/**
@@ -109,6 +104,7 @@ public class Robot extends SampleRobot {
 	 */
 	@SuppressWarnings("deprecation")
 	public void autonomous() {
+		while(!isEnabled()){}
 		Thread autonomousThread = new Thread(autonomousRunnable);
 		autonomousThread.start();
 		while(isAutonomous() && isEnabled()){Timer.delay(0.05);}
@@ -120,9 +116,10 @@ public class Robot extends SampleRobot {
 	 */
 	@SuppressWarnings("deprecation")
 	public void operatorControl() {
+		while(!isEnabled()){}
 		Thread teleopThread = new Thread(teleopRunnable);
 		teleopThread.start();
-		while (isOperatorControl() && isEnabled()) {}
+		while (isOperatorControl() && isEnabled()) {Timer.delay(0.05);}
 		teleopThread.stop();
 	}
 

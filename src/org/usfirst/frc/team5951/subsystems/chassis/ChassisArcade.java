@@ -54,7 +54,7 @@ public class ChassisArcade {
 	 * I created a method to set them both at the same time
 	 * @param power - power to send to each of the motors
 	 */
-	private void setLeftChassisPower(double power){
+	public void setLeftChassisPower(double power){
 		this.chassisLeftFront.set(power);
 		this.chassisLeftRear.set(power);
 	}
@@ -64,7 +64,7 @@ public class ChassisArcade {
 	 * I created a method to set them both at the same time.
 	 * @param power - power to send to each of the motors
 	 */
-	private void setRightChassisPower(double power){
+	public void setRightChassisPower(double power){
 		this.chassisRightFront.set(power);
 		this.chassisRightRear.set(power);
 	}

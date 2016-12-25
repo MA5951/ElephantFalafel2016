@@ -177,6 +177,6 @@ public class ChassisPID {
 	
 	 private static boolean isAbsoluteTolerance(double value, double tolerance){
 	    	return value <= tolerance && value >= -tolerance;
-	    }
+	 }
 	
 }

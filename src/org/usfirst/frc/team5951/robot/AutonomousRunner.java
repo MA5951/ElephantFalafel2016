@@ -2,9 +2,15 @@ package org.usfirst.frc.team5951.robot;
 
 import org.usfirst.frc.team5951.subsystems.Arm.Arm;
 import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
-import org.usfirst.frc.team5951.subsystems.chassis.ChassisPID;
+import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * Class to run the autonomous command.
@@ -12,48 +18,42 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
  * @author Yair Ziv, Omer Libai, Tomer Asher
  */
 public class AutonomousRunner {
-	static ChassisPID chassisPID = new ChassisPID();
-	static Arm autoArm = new Arm();
-	static Dropper dropper = new Dropper();
+	static Dropper dropper = Robot.dropper;
+	static ChassisArcade chassisArcade = Robot.chassisArcade;
+	static Arm arm = Robot.arm;
 	static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	static Ultrasonic frontUltrasonic = 
+			new Ultrasonic(RobotMap.k_FRONT_ULTRASONIC_PING, RobotMap.k_FRONT_ULTRASONIC_ECHO);
+	static DigitalInput in = new DigitalInput(9);
 	/**
 	 * Runs autonomous
-	 * @param passAutoOnly - chooser parameter
+	 * @param passAutoOnly - choosser parameter
 	 * @param leftOrRight - chooser parameter
 	 * @param dropStack - chooser parameter
 	 */
-	public static void run(boolean passAutoOnly, String leftOrRight) {
-		gyro.reset();
-		if (passAutoOnly) {
-			chassisPID.drive(350);
-		} else {
-			// Moving forward
-			chassisPID.drive(2.12);
-
-			// Turning right or left according to the chooser, continues straight and turning back again.
-			if (leftOrRight.equals("Left")) {
-				while (gyro.getAngle() < 90) {
-					chassisPID.rotateRight();
-				}
-				chassisPID.stopChassis();
-				chassisPID.drive(3.5);
-				gyro.reset();
-				while (gyro.getAngle() > 270 || gyro.getAngle() == 0) {
-					chassisPID.rotateLeft();
-				}
-				chassisPID.stopChassis();
-			} else {
-				while (gyro.getAngle() > 270 || gyro.getAngle() == 0) {
-					chassisPID.rotateLeft();
-				}
-				chassisPID.stopChassis();
-				chassisPID.drive(3.5);
-				gyro.reset();
-				while (gyro.getAngle() < 0) {
-					chassisPID.rotateRight();
-				}
-				chassisPID.stopChassis();
-			}
+	public static void run() {
+		
+		
+		double targetAngle = Math.toDegrees(Math.atan(12290.8-RobotMap.k_ROBOT_HEIGHT/1500+RobotMap.k_ROBOT_WIDTH));
+		double dist = Math.sqrt(Math.pow(12290.8-RobotMap.k_ROBOT_HEIGHT, 2) + Math.pow(1500+RobotMap.k_ROBOT_WIDTH, 2));
+		while(gyro.getAngle() <= targetAngle){
+			chassisArcade.setLeftChassisPower(-0.1);
+			chassisArcade.setRightChassisPower(0.1);
 		}
+		double initTime = Timer.getFPGATimestamp();
+		while(Timer.getFPGATimestamp() - initTime < 5){
+			chassisArcade.setLeftChassisPower(0.5);
+			chassisArcade.setRightChassisPower(0.5);
+		}
+		while(gyro.getAngle() >= targetAngle){
+			chassisArcade.setLeftChassisPower(0.1);
+			chassisArcade.setRightChassisPower(-0.1);
+		}
+	}
+	private static boolean isAbsoluteTolerance(double value, double tolerance){
+    	return value <= tolerance && value >= -tolerance;
+	}
+	public static void gyroCalibrate(){
+		gyro.calibrate();
 	}
 }

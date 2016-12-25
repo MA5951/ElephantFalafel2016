@@ -5,6 +5,9 @@ package org.usfirst.frc.team5951.robot;
  * @author Yair Ziv
  */
 public class RobotMap {
+	// Constants
+	public static final int k_ROBOT_HEIGHT = 80; // TODO fix
+	public static final int k_ROBOT_WIDTH = 40; // TODO fix
 	//Talon ports
 	//Chassis ports
 	public static final int k_CHASSIS_LEFT_FRONT = 1;
@@ -22,7 +25,10 @@ public class RobotMap {
 	public static final int k_CHASSIS_LEFT_ENCODER_B = 7;
 	public static final int k_CHASSIS_RIGHT_ENCODER_A =6;
 	public static final int k_CHASSIS_RIGHT_ENCODER_B = 5;
-
+	//Ultrasonic
+	public static final int k_FRONT_ULTRASONIC_PING = 69; // TODO fix
+	public static final int k_FRONT_ULTRASONIC_ECHO = 420; // TODO fix
+	
 	//Arm ports
 	public static final int k_LIFT_MOTOR_TALON = 7; // port for CANTalon for arm/lift
 	public static final int k_LIFT_MICROSWITCH = 4;
@@ -31,6 +37,6 @@ public class RobotMap {
 	public static final int k_DROPPER_TALON_LEFT = 5;
 	public static final int k_DROPPER_TALON_RIGHT = 6;
 	
-
+	
 
 }
