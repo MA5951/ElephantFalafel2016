@@ -1,9 +1,11 @@
 package org.usfirst.frc.team5951.subsystems.chassis;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * {@link ChassisPID} sub-subsystem, used to control the chassis in the autonomous period using PID
@@ -22,19 +24,20 @@ public class ChassisPID {
 	private Encoder chassisEncoderLeft;
 	private Encoder chassisEncoderRight;
 	
+	//Gyro
+	private ADXRS450_Gyro gyro;
+	
 	//PIDControllers
-	private PIDController leftFrontController;
-	private PIDController leftRearController;
-	private PIDController rightFrontController;
-	private PIDController rightRearController;
+	private PIDController leftController;
+	private PIDController rightController;
 	
 	//Other variables
-	private final double k_KP_LEFT = 0.3;
-	private final double k_KI_LEFT = 0;
+	private final double k_KP_LEFT = 0.0045;
+	private final double k_KI_LEFT = 0.00003;
 	private final double k_KD_LEFT = 0;
 	
-	private final double k_KP_RIGHT = 0.3;
-	private final double k_KI_RIGHT = 0;
+	private final double k_KP_RIGHT = 0.004;
+	private final double k_KI_RIGHT = 0.00003;
 	private final double k_KD_RIGHT = 0;
 	
 	
@@ -49,26 +52,31 @@ public class ChassisPID {
 		chassisRightRear = ChassisComponents.chassisRightRear;
 		chassisRightRear.reverseOutput(true);
 		
-		chassisLeftFront.changeControlMode(TalonControlMode.PercentVbus);
-		chassisLeftRear.changeControlMode(TalonControlMode.PercentVbus);
-		chassisRightFront.changeControlMode(TalonControlMode.PercentVbus);
-		chassisRightRear.changeControlMode(TalonControlMode.PercentVbus);
+		chassisLeftRear.changeControlMode(TalonControlMode.Follower);
+        chassisRightRear.changeControlMode(TalonControlMode.Follower);
+        chassisLeftFront.changeControlMode(TalonControlMode.PercentVbus);
+        chassisRightFront.changeControlMode(TalonControlMode.PercentVbus);
 		
+        chassisRightFront.setInverted(true);
+        chassisLeftRear.reverseOutput(true);
+        chassisLeftFront.setInverted(true);
+        
 		//Encoders init
 		chassisEncoderLeft = ChassisComponents.leftChassisEncoder;
 		chassisEncoderRight = ChassisComponents.rightChassisEncoder;
+		chassisEncoderRight.setDistancePerPulse(Math.PI*15.24 / 265);
+        chassisEncoderLeft.setDistancePerPulse(Math.PI*15.24 / 360);
+        
+        //GyroInit
+        gyro = ChassisComponents.gyro;
 		
 		//PIDControllers init
-		leftFrontController = new PIDController(k_KP_LEFT, k_KI_LEFT, k_KD_LEFT, chassisEncoderLeft, chassisLeftFront);
-		leftRearController = new PIDController(k_KP_LEFT, k_KI_LEFT, k_KD_LEFT, chassisEncoderLeft, chassisLeftRear);
-		rightFrontController = new PIDController(k_KP_RIGHT, k_KI_RIGHT, k_KD_RIGHT, chassisEncoderRight, chassisRightFront);
-		rightRearController = new PIDController(k_KP_RIGHT, k_KI_RIGHT, k_KD_RIGHT, chassisEncoderRight, chassisRightRear);
+		leftController = new PIDController(k_KP_LEFT, k_KI_LEFT, k_KD_LEFT, chassisEncoderLeft, chassisLeftFront);
+		rightController = new PIDController(k_KP_RIGHT, k_KI_RIGHT, k_KD_RIGHT, chassisEncoderRight, chassisRightFront);
 		
 		//Controllers data
-		leftFrontController.setAbsoluteTolerance(0.1);
-		leftRearController.setAbsoluteTolerance(0.1);
-		rightFrontController.setAbsoluteTolerance(0.1);
-		rightRearController.setAbsoluteTolerance(0.1);
+		leftController.setAbsoluteTolerance(0.01);
+		rightController.setAbsoluteTolerance(0.01);
 	}
 	
 	
@@ -77,18 +85,34 @@ public class ChassisPID {
 	 * @param distance - distance in meters
 	 */
 	public void drive(double distance){
-		leftFrontController.setSetpoint(distance);
-		leftRearController.setSetpoint(distance);
-		rightFrontController.setSetpoint(distance);
-		rightRearController.setSetpoint(distance);
+		leftController.setSetpoint(distance);
+		rightController.setSetpoint(distance);
+		
+		chassisEncoderRight.reset();
+		chassisEncoderLeft.reset();
+		
+		gyro.reset();
 		
 		enableAllControllers();
 		
-		while(!leftFrontController.onTarget() && !leftRearController.onTarget()){
-			
+		while(!leftController.onTarget() || !rightController.onTarget()){
+			chassisLeftRear.set(chassisLeftFront.getDeviceID());
+			chassisRightRear.set(chassisRightFront.getDeviceID());
 		}
 		
+		leftController.disable();
+    	rightController.disable();
+    	while(!isAbsoluteTolerance(gyro.getAngle(), 0.1)) {
+    		chassisLeftFront.set(gyro.getAngle() > 0 ? -0.1 : 0.1);
+    		chassisRightFront.set(gyro.getAngle() > 0 ? 0.1 : -0.1);
+    		chassisLeftRear.set(chassisLeftFront.getDeviceID());
+            chassisRightRear.set(chassisRightFront.getDeviceID());
+            
+    	}		
+		
 		disableAllControllers();
+		
+		stopChassis();
 	}
 	
 	
@@ -96,10 +120,8 @@ public class ChassisPID {
 	 * Enables all of the controllers at the same time and resets the encoders
 	 */
 	private void enableAllControllers(){
-		leftFrontController.enable();
-		leftRearController.enable();
-		rightFrontController.enable();
-		rightRearController.enable();
+		leftController.enable();
+		rightController.enable();
 		
 		chassisEncoderLeft.reset();
 		chassisEncoderRight.reset();
@@ -110,10 +132,8 @@ public class ChassisPID {
 	 * Disables all controllers at the same time
 	 */
 	private void disableAllControllers(){
-		leftFrontController.disable();  
-		leftRearController.disable();   
-		rightFrontController.disable(); 
-		rightRearController.disable();  
+		leftController.disable();  
+		rightController.disable(); 
 		
 		chassisLeftFront.set(0);
 		chassisLeftRear.set(0);
@@ -152,7 +172,11 @@ public class ChassisPID {
 	}
 	
 	public boolean isInAllowedRange(){
-		return this.leftFrontController.onTarget() && this.rightFrontController.onTarget();
+		return this.leftController.onTarget() && this.rightController.onTarget();
 	}
+	
+	 private static boolean isAbsoluteTolerance(double value, double tolerance){
+	    	return value <= tolerance && value >= -tolerance;
+	    }
 	
 }

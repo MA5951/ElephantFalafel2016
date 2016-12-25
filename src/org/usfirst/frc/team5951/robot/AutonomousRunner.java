@@ -22,17 +22,11 @@ public class AutonomousRunner {
 	 * @param leftOrRight - chooser parameter
 	 * @param dropStack - chooser parameter
 	 */
-	public static void run(boolean passAutoOnly, String leftOrRight, boolean dropStack) {
+	public static void run(boolean passAutoOnly, String leftOrRight) {
 		gyro.reset();
 		if (passAutoOnly) {
-			chassisPID.drive(2.4);
+			chassisPID.drive(350);
 		} else {
-			// Dropping the stack
-			if (dropStack) {
-				chassisPID.drive(-2);
-				chassisPID.drive(2);
-			}
-
 			// Moving forward
 			chassisPID.drive(2.12);
 

@@ -1,11 +1,9 @@
 package org.usfirst.frc.team5951.subsystems.Dropper;
 
 import org.usfirst.frc.team5951.robot.ButtonPorts;
-import org.usfirst.frc.team5951.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Dropper {
@@ -17,7 +15,7 @@ public class Dropper {
 		leftDropperMotor = DropperComponents.leftDropperMotor;
 		rightDropperMotor = DropperComponents.rightDropperMotor;
 		
-		leftDropperMotor.setInverted(true);
+//		leftDropperMotor.setInverted(true);
 		rightDropperMotor.setInverted(true);
 		leftDropperMotor.changeControlMode(TalonControlMode.PercentVbus);
 		rightDropperMotor.changeControlMode(TalonControlMode.PercentVbus);

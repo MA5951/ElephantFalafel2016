@@ -13,10 +13,13 @@ public class ButtonPorts {
 	
 	//Button ports
 	public static final int k_INTAKE = 6;
-	public static final int k_OUTAKE = 4;
+	public static final int k_OUTAKE = 5;
 	public static final int k_DROP_ALL_BLOCKS = 1; //Drops the cubes
+	public static final int k_ARM_MICROSWITCH_FAIL_SAFE = 8;
 	
 	//POV values
-	public static final int k_POV_UP = 0;
-	public static final int k_POV_DOWN = 180;
+	public static final int k_POV_UP_MIN = 45;
+	public static final int k_POV_UP_MAX = 315;
+	public static final int k_POV_DOWN_MIN = 135;
+	public static final int k_POV_DOWN_MAX = 225;
 }

@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5951.robot;
 
-import java.sql.Time;
-
 import org.usfirst.frc.team5951.subsystems.Arm.Arm;
 import org.usfirst.frc.team5951.subsystems.Dropper.Dropper;
 import org.usfirst.frc.team5951.subsystems.chassis.ChassisArcade;
@@ -11,7 +9,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,7 +28,6 @@ public class Robot extends SampleRobot {
 	//Autonomous stuff
 	private SendableChooser passAutoLineOnly;
 	private SendableChooser rightOrLeft;
-	private SendableChooser dropStack;
 	
 	//Camera
 	private CameraServer cameraServer;
@@ -39,7 +35,7 @@ public class Robot extends SampleRobot {
 	 * Autonomous {@link Runnable} instance
 	 */
 	private Runnable autonomousRunnable = () -> {
-		AutonomousRunner.run((boolean) passAutoLineOnly.getSelected(), (String) rightOrLeft.getSelected(), (boolean)dropStack.getSelected());
+		AutonomousRunner.run((boolean) passAutoLineOnly.getSelected(), (String) rightOrLeft.getSelected());
 	};
 	/**
 	 * Teleop {@link Runnable} instance
@@ -77,6 +73,10 @@ public class Robot extends SampleRobot {
 		//Camera init
 		System.out.println("started");
 		//new Thread(cameraThread).start();
+		
+		cameraServer = CameraServer.getInstance();
+		cameraServer.setQuality(50);
+		cameraServer.startAutomaticCapture("cam0");
 	}
 	/**
 	 * Robot initialize function
@@ -91,7 +91,6 @@ public class Robot extends SampleRobot {
 	private void initChoosers(){
 		passAutoLineOnly = new SendableChooser();
 		rightOrLeft = new SendableChooser();
-		dropStack = new SendableChooser();
 		
 		
 		//Pass autonomous line only chooser options
@@ -103,11 +102,6 @@ public class Robot extends SampleRobot {
 		rightOrLeft.addDefault("Left", "Left");
 		rightOrLeft.addObject("Right", "Right");
 		SmartDashboard.putData("Starting left or right of target", rightOrLeft);
-		
-		//Drop or not drop, that is the question (of the chooser)
-		dropStack.addDefault("Yes", true);
-		dropStack.addObject("no", false);
-		SmartDashboard.putData("Drop stack?", dropStack);
 	}
 
 	/**

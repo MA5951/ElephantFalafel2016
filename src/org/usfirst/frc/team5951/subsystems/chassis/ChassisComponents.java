@@ -2,6 +2,7 @@ package org.usfirst.frc.team5951.subsystems.chassis;
 
 import org.usfirst.frc.team5951.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 
@@ -20,5 +21,8 @@ public class ChassisComponents {
 	//Sensors
 	//Encoders
 	public static Encoder leftChassisEncoder = new Encoder(RobotMap.k_CHASSIS_LEFT_ENCODER_A, RobotMap.k_CHASSIS_LEFT_ENCODER_B);
-	public static Encoder rightChassisEncoder = new Encoder(RobotMap.k_CHASSIS_RIGHT_ENCODER_A, RobotMap.k_CHASSIS_RIGHT_ENCODER_B);	
+	public static Encoder rightChassisEncoder = new Encoder(RobotMap.k_CHASSIS_RIGHT_ENCODER_A, RobotMap.k_CHASSIS_RIGHT_ENCODER_B);
+	
+	//Gyro
+	public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 }

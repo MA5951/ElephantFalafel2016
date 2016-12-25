@@ -2,11 +2,10 @@ package org.usfirst.frc.team5951.subsystems.chassis;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.Encoder;
 import util.ChassisUtil;
 
-/**
- * ChassisArcade class, used to control the chassis during the operator control period
+/* Chassis Arcade lass, used to control the chassis during the operator control period
  * Uses calculations from the util package to calculate power to the left side of the chassis
  * and power to the right side of the chassis
  * @author Yair Ziv
