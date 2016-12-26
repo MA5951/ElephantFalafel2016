@@ -36,10 +36,20 @@ public class AutonomousRunner {
 		//double targetAngle = Math.toDegrees(Math.atan(12290.8-RobotMap.k_ROBOT_HEIGHT/1500+RobotMap.k_ROBOT_WIDTH));
 		//double dist = Math.sqrt(Math.pow(12290.8-RobotMap.k_ROBOT_HEIGHT, 2) + Math.pow(1500+RobotMap.k_ROBOT_WIDTH, 2));
 		double initTime = Timer.getFPGATimestamp();
-		int SECONDS = 3;
+		final int SECONDS = 5;
 		while(Timer.getFPGATimestamp() - initTime < SECONDS){
-			chassisArcade.setLeftChassisPower(0.5);
-			chassisArcade.setRightChassisPower(0.5);
+			chassisArcade.setLeftChassisPower(0.4);
+			chassisArcade.setRightChassisPower(0.4);
+		}
+		final int ARMSECONDS = 6;
+		initTime = Timer.getFPGATimestamp();
+		while(Timer.getFPGATimestamp() - initTime < ARMSECONDS){
+			arm.armUp();
+		}
+		final int DROPPERSECONDS = 4;
+		initTime = Timer.getFPGATimestamp();
+		while(Timer.getFPGATimestamp() - initTime < DROPPERSECONDS){
+			dropper.forward();
 		}
 		
 	}
