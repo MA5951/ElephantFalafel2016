@@ -36,8 +36,8 @@ public class Robot extends SampleRobot {
 	 */
 	private Runnable autonomousRunnable = () -> {
 		
-		AutonomousRunner.gyroCalibrate();
 		AutonomousRunner.run();
+		
 		
 	};
 	/**
@@ -49,7 +49,7 @@ public class Robot extends SampleRobot {
 			this.chassisArcade.tankDrive(-mainDriverStick.getAxis(AxisType.kX), mainDriverStick.getAxis(AxisType.kY));
 			this.arm.control(systemsDriver);
 			this.dropper.control(systemsDriver);	
-			SmartDashboard.putNumber("ultra", AutonomousRunner.frontUltrasonic.getRangeMM());
+			
 			Timer.delay(0.05);
 		}
 	};

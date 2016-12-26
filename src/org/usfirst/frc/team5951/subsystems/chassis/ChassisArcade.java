@@ -2,7 +2,6 @@ package org.usfirst.frc.team5951.subsystems.chassis;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.Encoder;
 import util.ChassisUtil;
 
 /* Chassis Arcade lass, used to control the chassis during the operator control period
